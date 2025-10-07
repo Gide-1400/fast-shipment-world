@@ -6,11 +6,6 @@
     <title>الشحنة السريعة - منصة الشحن العالمية</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- إضافة Firebase SDK بالترتيب الصحيح -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="firebase.js"></script>
 </head>
 <body>
     <!-- الهيدر -->
@@ -313,11 +308,11 @@
             <form id="loginForm">
                 <div class="form-group">
                     <label>البريد الإلكتروني</label>
-                    <input type="email" required>
+                    <input type="email" id="loginEmail" required>
                 </div>
                 <div class="form-group">
                     <label>كلمة المرور</label>
-                    <input type="password" required>
+                    <input type="password" id="loginPassword" required autocomplete="current-password">
                 </div>
                 <button type="submit" class="btn-primary">دخول</button>
                 <p class="form-switch">
@@ -335,19 +330,19 @@
             <form id="registerForm">
                 <div class="form-group">
                     <label>الاسم الكامل</label>
-                    <input type="text" required>
+                    <input type="text" id="regName" required>
                 </div>
                 <div class="form-group">
                     <label>البريد الإلكتروني</label>
-                    <input type="email" required>
+                    <input type="email" id="regEmail" required>
                 </div>
                 <div class="form-group">
                     <label>رقم الجوال</label>
-                    <input type="tel" required>
+                    <input type="tel" id="regPhone" required>
                 </div>
                 <div class="form-group">
                     <label>نوع الحساب</label>
-                    <select required>
+                    <select id="regType" required>
                         <option value="">اختر النوع</option>
                         <option value="sender">مرسل فقط</option>
                         <option value="carrier">ناقل فقط</option>
@@ -356,13 +351,29 @@
                 </div>
                 <div class="form-group">
                     <label>كلمة المرور</label>
-                    <input type="password" required>
+                    <input type="password" id="regPassword" required autocomplete="new-password">
                 </div>
                 <button type="submit" class="btn-primary">إنشاء حساب</button>
             </form>
         </div>
     </div>
 
+    <!-- إضافة Firebase هنا في النهاية -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script>
+        // تهيئة Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCkr2Yy_HP_l1x_Hber8EPxQb9h6oabJyM",
+            authDomain: "fastship-new.firebaseapp.com",
+            projectId: "fastship-new",
+            storageBucket: "fastship-new.firebasestorage.app",
+            messagingSenderId: "977835487089",
+            appId: "1:977835487089:web:b7533c67af3f379df0d0d0",
+            measurementId: "G-79LYR6CWBP"
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
