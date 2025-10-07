@@ -53,9 +53,12 @@ function setupEventListeners() {
 // دالة تسجيل الدخول الجديدة
 async function handleLogin() {
     try {
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
+        // استخدام querySelector للعثور على الحقول
+        const email = document.querySelector('#loginForm input[type="email"]').value;
+        const password = document.querySelector('#loginForm input[type="password"]').value;
         
+        console.log('بيانات الدخول:', { email, password });
+
         // استخدام Firebase مباشرة
         const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
         const user = userCredential.user;
@@ -84,12 +87,15 @@ async function handleLogin() {
 // دالة التسجيل الجديدة
 async function handleRegister() {
     try {
-        const name = document.getElementById('regName').value;
-        const email = document.getElementById('regEmail').value;
-        const phone = document.getElementById('regPhone').value;
-        const type = document.getElementById('regType').value;
-        const password = document.getElementById('regPassword').value;
+        // استخدام querySelector للعثور على الحقول
+        const name = document.querySelector('#registerForm input[type="text"]').value;
+        const email = document.querySelector('#registerForm input[type="email"]').value;
+        const phone = document.querySelector('#registerForm input[type="tel"]').value;
+        const type = document.querySelector('#registerForm select').value;
+        const password = document.querySelector('#registerForm input[type="password"]').value;
         
+        console.log('بيانات التسجيل:', { name, email, phone, type, password });
+
         // استخدام Firebase مباشرة
         const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
         const user = userCredential.user;
@@ -249,7 +255,7 @@ function showCreateShipment() {
 function showCarrierRegister() {
     showRegister();
     setTimeout(() => {
-        document.getElementById('regType').value = 'carrier';
+        document.querySelector('#registerForm select').value = 'carrier';
     }, 100);
 }
 
