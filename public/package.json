@@ -1,20 +1,30 @@
 {
-  "name": "الشحنة-السريعة",
-  "version": "1.0.0",
-  "description": "منصة ربط عالمية غير ربحية للشحن",
+  "name": "fast-ship-platform",
+  "version": "2.0.0",
+  "description": "Global shipping platform connecting senders with carriers",
+  "type": "module",
   "main": "index.html",
   "scripts": {
-    "dev": "netlify dev",
-    "build": "echo 'No build step required'",
+    "dev": "npx serve . -p 3000",
+    "build": "echo 'Static site - no build required'",
+    "deploy": "firebase deploy",
     "test": "echo 'No tests specified'"
   },
+  "keywords": [
+    "shipping",
+    "logistics",
+    "global",
+    "arabic",
+    "english",
+    "firebase",
+    "responsive"
+  ],
+  "author": "Fast Ship Team",
+  "license": "MIT",
   "dependencies": {
-    "@neondatabase/serverless": "^0.9.3"
+    "firebase": "^9.23.0"
   },
   "devDependencies": {
-    "netlify-cli": "^17.10.1"
-  },
-  "keywords": ["shipping", "logistics", "global", "non-profit", "arabic"],
-  "author": "الشحنة السريعة",
-  "license": "MIT"
+    "serve": "^14.2.0"
+  }
 }
