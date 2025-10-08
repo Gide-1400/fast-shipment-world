@@ -4,7 +4,6 @@ export function initializeApp() {
     setupAuthListener();
     loadRealtimeStats();
     setupShipmentForm();
-    // ✅ العنوان ثابت: "ارسل شحنتك من بيتك إلى كل أنحاء العالم"
 }
 
 function setupAuthListener() {
@@ -38,15 +37,13 @@ function setupShipmentForm() {
         e.preventDefault();
         const user = auth.currentUser;
         if (!user) {
-            showAlert('يرجى تسجيل الدخول أولاً', 'error');
-            showLogin();
+            alert('يرجى تسجيل الدخول أولاً');
             return;
         }
 
         const data = {
             senderId: user.uid,
             senderName: user.displayName || user.email,
-            senderPhone: user.phoneNumber || '',
             fromCity: document.getElementById('fromCity').value.trim(),
             toCity: document.getElementById('toCity').value.trim(),
             shipmentType: document.getElementById('shipmentType').value,
@@ -56,83 +53,43 @@ function setupShipmentForm() {
             description: document.getElementById('description').value.trim(),
             voluntaryDonation: document.getElementById('voluntaryDonation').checked,
             status: 'active',
-            createdAt: serverTimestamp(),
-            offers: [],
-            views: 0
+            createdAt: serverTimestamp()
         };
 
         try {
             await addDoc(collection(db, 'shipments'), data);
-            showAlert('تم إنشاء الشحنة بنجاح', 'success');
+            alert('تم إنشاء الشحنة بنجاح');
             form.reset();
-            updateDonationAmount();
         } catch (error) {
-            console.error('Error creating shipment:', error);
-            showAlert('حدث خطأ أثناء إنشاء الشحنة', 'error');
+            alert('حدث خطأ أثناء إنشاء الشحنة');
         }
     });
 }
 
-function updateDonationAmount() {
-    const donationCheckbox = document.getElementById('voluntaryDonation');
-    const budgetInput = document.getElementById('budget');
-    const donationAmount = document.getElementById('donationAmount');
-    if (donationCheckbox && donationCheckbox.checked && budgetInput && budgetInput.value) {
-        const donation = parseFloat(budgetInput.value) * 0.01;
-        donationAmount.textContent = `${donation.toFixed(2)} ريال`;
-    } else {
-        donationAmount.textContent = '0 ريال';
+window.checkAuthThenCreateShipment = function() {
+    const user = auth.currentUser;
+    if (!user) {
+        alert('يرجى تسجيل الدخول أولاً');
+        document.getElementById('loginModal').style.display = 'block';
+        return;
     }
-}
-
-function updateUIForAuthenticatedUser() {
-    const authButtons = document.getElementById('authButtons');
-    if (authButtons) {
-        authButtons.innerHTML = `
-            <button class="btn-secondary" onclick="window.location.href='dashboard.html'">
-                <i class="fas fa-tachometer-alt"></i> <span data-i18n="nav.dashboard">لوحة التحكم</span>
-            </button>
-            <button class="btn-logout" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i> <span data-i18n="auth.logout">تسجيل الخروج</span>
-            </button>
-        `;
-        if (window.i18n) window.i18n.applyTranslations();
-    }
-}
-
-function updateUIForUnauthenticatedUser() {
-    const authButtons = document.getElementById('authButtons');
-    if (authButtons) {
-        authButtons.innerHTML = `
-            <button class="btn-login" onclick="showLogin()" data-i18n="auth.login">تسجيل الدخول</button>
-            <button class="btn-register" onclick="showRegister()" data-i18n="auth.register">إنشاء حساب</button>
-        `;
-        if (window.i18n) window.i18n.applyTranslations();
-    }
-}
-
-window.logout = async function() {
-    try {
-        await signOut(auth);
-        showAlert('تم تسجيل الخروج بنجاح', 'success');
-        setTimeout(() => window.location.reload(), 1000);
-    } catch (error) {
-        showAlert('حدث خطأ أثناء تسجيل الخروج', 'error');
-    }
+    document.getElementById('quickShipment').scrollIntoView({ behavior: 'smooth' });
 };
 
-function showAlert(message, type = 'info') {
-    const container = document.getElementById('notificationsContainer');
-    if (!container) return;
-    const alert = document.createElement('div');
-    alert.className = `alert alert-${type}`;
-    alert.innerHTML = `
-        <div class="alert-content">
-            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-            <span>${message}</span>
-        </div>
-        <button class="alert-close" onclick="this.parentElement.remove()">&times;</button>
-    `;
-    container.appendChild(alert);
-    setTimeout(() => alert.remove(), 5000);
-}
+window.checkAuthThenBecomeCarrier = function() {
+    const user = auth.currentUser;
+    if (!user) {
+        alert('يرجى تسجيل الدخول أولاً');
+        document.getElementById('loginModal').style.display = 'block';
+        return;
+    }
+    window.location.href = 'carrier.html';
+};
+
+window.showLogin = function() {
+    document.getElementById('loginModal').style.display = 'block';
+};
+
+window.showRegister = function() {
+    document.getElementById('registerModal').style.display = 'block';
+};
