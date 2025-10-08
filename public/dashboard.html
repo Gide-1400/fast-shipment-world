@@ -9,282 +9,471 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- شريط التنقل الجانبي -->
-    <nav class="sidebar">
-        <div class="sidebar-header">
-            <div class="logo">
-                <i class="fas fa-shipping-fast"></i>
-                <span>الشحنة السريعة</span>
-            </div>
-        </div>
-        <ul class="sidebar-menu">
-            <li class="active">
-                <a href="#overview" onclick="showSection('overview')">
-                    <i class="fas fa-chart-line"></i>
-                    <span>نظرة عامة</span>
-                </a>
-            </li>
-            <li>
-                <a href="#shipments" onclick="showSection('shipments')">
-                    <i class="fas fa-box"></i>
-                    <span>شحناتي</span>
-                </a>
-            </li>
-            <li>
-                <a href="#offers" onclick="showSection('offers')">
-                    <i class="fas fa-handshake"></i>
-                    <span>العروض</span>
-                </a>
-            </li>
-            <li>
-                <a href="#messages" onclick="showSection('messages')">
-                    <i class="fas fa-comments"></i>
-                    <span>الرسائل</span>
-                </a>
-            </li>
-            <li>
-                <a href="#ratings" onclick="showSection('ratings')">
-                    <i class="fas fa-star"></i>
-                    <span>التقييمات</span>
-                </a>
-            </li>
-            <li>
-                <a href="#settings" onclick="showSection('settings')">
-                    <i class="fas fa-cog"></i>
-                    <span>الإعدادات</span>
-                </a>
-            </li>
-        </ul>
-        <div class="sidebar-footer">
-            <button onclick="logout()" class="btn-logout">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>خروج</span>
-            </button>
-        </div>
-    </nav>
+    <!-- شريط التحميل -->
+    <div class="loading-bar" id="loadingBar"></div>
 
-    <!-- المحتوى الرئيسي -->
-    <main class="main-content">
-        <!-- الهيدر -->
-        <header class="dashboard-header">
-            <div class="header-left">
-                <h1 id="pageTitle">لوحة التحكم</h1>
-                <p id="pageSubtitle">مرحباً، <span id="userName">أحمد</span></p>
-            </div>
-            <div class="header-right">
-                <button class="btn-primary" onclick="createNewShipment()">
-                    <i class="fas fa-plus"></i>
-                    شحنة جديدة
-                </button>
-                <div class="notifications">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge">3</span>
+    <!-- هيكل لوحة التحكم -->
+    <div class="dashboard-container">
+        <!-- الشريط الجانبي -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-shipping-fast"></i>
+                    <span data-i18n="app.name">الشحنة السريعة</span>
                 </div>
-            </div>
-        </header>
-
-        <!-- قسم النظرة العامة -->
-        <section id="overview" class="content-section active">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-box"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="totalShipments">12</h3>
-                        <p>إجمالي الشحنات</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="activeShipments">3</h3>
-                        <p>شحنات نشطة</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="averageRating">4.8</h3>
-                        <p>متوسط التقييم</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-money-bill"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="totalDonations">125.50</h3>
-                        <p>إجمالي التبرعات</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="charts-section">
-                <div class="chart-card">
-                    <h3>نشاط الشحنات</h3>
-                    <canvas id="shipmentsChart"></canvas>
-                </div>
-                <div class="chart-card">
-                    <h3>أنواع الشحنات</h3>
-                    <canvas id="typesChart"></canvas>
-                </div>
-            </div>
-
-            <div class="recent-activity">
-                <h3>آخر النشاطات</h3>
-                <div class="activity-list" id="activityList">
-                    <!-- يتم ملؤها بالبيانات الديناميكية -->
-                </div>
-            </div>
-        </section>
-
-        <!-- قسم الشحنات -->
-        <section id="shipments" class="content-section">
-            <div class="section-header">
-                <h2>شحناتي</h2>
-                <div class="filters">
-                    <select id="statusFilter">
-                        <option value="all">جميع الحالات</option>
-                        <option value="active">نشطة</option>
-                        <option value="completed">مكتملة</option>
-                        <option value="cancelled">ملغية</option>
-                    </select>
-                    <input type="text" placeholder="بحث..." id="searchShipments">
-                </div>
-            </div>
-            <div class="shipments-grid" id="shipmentsGrid">
-                <!-- يتم ملؤها بالبيانات -->
-            </div>
-        </section>
-
-        <!-- قسم العروض -->
-        <section id="offers" class="content-section">
-            <div class="section-header">
-                <h2>العروض المقدمة</h2>
-            </div>
-            <div class="offers-list" id="offersList">
-                <!-- يتم ملؤها بالبيانات -->
-            </div>
-        </section>
-
-        <!-- قسم الرسائل -->
-        <section id="messages" class="content-section">
-            <div class="chat-container">
-                <div class="chat-sidebar">
-                    <h3>المحادثات</h3>
-                    <div class="chat-list" id="chatList">
-                        <!-- يتم ملؤها بالبيانات -->
-                    </div>
-                </div>
-                <div class="chat-main">
-                    <div class="chat-header">
-                        <h4 id="chatTitle">اختر محادثة</h4>
-                    </div>
-                    <div class="chat-messages" id="chatMessages">
-                        <div class="no-chat-selected">
-                            <i class="fas fa-comments"></i>
-                            <p>اختر محادثة لبدء المراسلة</p>
-                        </div>
-                    </div>
-                    <div class="chat-input" id="chatInput" style="display: none;">
-                        <input type="text" placeholder="اكتب رسالتك..." id="messageInput">
-                        <button onclick="sendMessage()">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- قسم التقييمات -->
-        <section id="ratings" class="content-section">
-            <div class="ratings-summary">
-                <div class="rating-card">
-                    <h3>متوسط تقييماتي</h3>
-                    <div class="rating-display">
-                        <span class="rating-number">4.8</span>
-                        <div class="stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="rating-breakdown">
-                    <h3>تفصيل التقييمات</h5>
-                    <div class="rating-bar">
-                        <span>5 نجوم</span>
-                        <div class="bar">
-                            <div class="fill" style="width: 80%"></div>
-                        </div>
-                        <span>80%</span>
-                    </div>
-                    <div class="rating-bar">
-                        <span>4 نجوم</span>
-                        <div class="bar">
-                            <div class="fill" style="width: 15%"></div>
-                        </div>
-                        <span>15%</span>
-                    </div>
-                    <div class="rating-bar">
-                        <span>3 نجوم</span>
-                        <div class="bar">
-                            <div class="fill" style="width: 5%"></div>
-                        </div>
-                        <span>5%</span>
-                    </div>
-                </div>
-            </div>
-            <div class="reviews-list" id="reviewsList">
-                <!-- يتم ملؤها بالبيانات -->
-            </div>
-        </section>
-
-        <!-- قسم الإعدادات -->
-        <section id="settings" class="content-section">
-            <div class="settings-tabs">
-                <button class="tab-btn active" onclick="showSettingsTab('profile')">الملف الشخصي</button>
-                <button class="tab-btn" onclick="showSettingsTab('preferences')">التفضيلات</button>
-                <button class="tab-btn" onclick="showSettingsTab('notifications')">الإشعارات</button>
-                <button class="tab-btn" onclick="showSettingsTab('privacy')">الخصوصية</button>
             </div>
             
-            <div id="profileSettings" class="settings-tab active">
-                <form class="settings-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>الاسم الكامل</label>
-                            <input type="text" value="أحمد محمد" required>
-                        </div>
-                        <div class="form-group">
-                            <label>البريد الإلكتروني</label>
-                            <input type="email" value="ahmed@example.com" required>
-                        </div>
+            <nav class="sidebar-nav">
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>رقم الجوال</label>
-                            <input type="tel" value="0501234567" required>
-                        </div>
-                        <div class="form-group">
-                            <label>المدينة</label>
-                            <input type="text" value="الرياض" required>
-                        </div>
+                    <div class="user-info">
+                        <h3 id="userName">المستخدم</h3>
+                        <span class="user-type" id="userType">مرسل</span>
                     </div>
-                    <button type="submit" class="btn-primary">حفظ التغييرات</button>
-                </form>
+                </div>
+                
+                <ul class="sidebar-menu">
+                    <li class="menu-item active">
+                        <a href="#overview" class="menu-link" onclick="showSection('overview')">
+                            <i class="fas fa-chart-line"></i>
+                            <span data-i18n="dashboard.overview">نظرة عامة</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#shipments" class="menu-link" onclick="showSection('shipments')">
+                            <i class="fas fa-box"></i>
+                            <span data-i18n="dashboard.shipments">شحناتي</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#offers" class="menu-link" onclick="showSection('offers')">
+                            <i class="fas fa-handshake"></i>
+                            <span data-i18n="dashboard.offers">العروض</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#messages" class="menu-link" onclick="showSection('messages')">
+                            <i class="fas fa-comments"></i>
+                            <span data-i18n="dashboard.messages">الرسائل</span>
+                            <span class="badge" id="messagesBadge">3</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#ratings" class="menu-link" onclick="showSection('ratings')">
+                            <i class="fas fa-star"></i>
+                            <span data-i18n="dashboard.ratings">التقييمات</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#wallet" class="menu-link" onclick="showSection('wallet')">
+                            <i class="fas fa-wallet"></i>
+                            <span data-i18n="dashboard.wallet">المحفظة</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#settings" class="menu-link" onclick="showSection('settings')">
+                            <i class="fas fa-cog"></i>
+                            <span data-i18n="dashboard.settings">الإعدادات</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span data-i18n="auth.logout">تسجيل الخروج</span>
+                </button>
             </div>
-        </section>
-    </main>
+        </aside>
 
+        <!-- المحتوى الرئيسي -->
+        <main class="main-content">
+            <!-- الهيدر -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <h1 id="pageTitle" data-i18n="dashboard.overview">لوحة التحكم</h1>
+                    <p id="pageSubtitle" data-i18n="dashboard.welcome">مرحباً بعودتك!</p>
+                </div>
+                <div class="header-right">
+                    <div class="header-actions">
+                        <button class="btn-primary" onclick="createNewShipment()">
+                            <i class="fas fa-plus"></i>
+                            <span data-i18n="hero.sendShipment">شحنة جديدة</span>
+                        </button>
+                        <div class="notifications-wrapper">
+                            <button class="btn-icon" id="notificationsBtn">
+                                <i class="fas fa-bell"></i>
+                                <span class="notification-count">3</span>
+                            </button>
+                        </div>
+                        <div class="language-switcher">
+                            <select id="dashboardLanguage" onchange="changeLanguage(this.value)">
+                                <option value="ar">العربية</option>
+                                <option value="en">English</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- الإشعارات -->
+            <div class="notifications-panel" id="notificationsPanel">
+                <div class="notifications-header">
+                    <h3 data-i18n="dashboard.notifications">الإشعارات</h3>
+                    <button class="btn-icon" onclick="markAllAsRead()">
+                        <i class="fas fa-check-double"></i>
+                    </button>
+                </div>
+                <div class="notifications-list" id="notificationsList">
+                    <!-- سيتم ملؤها بالبيانات -->
+                </div>
+            </div>
+
+            <!-- الأقسام -->
+            <div class="content-sections">
+                <!-- نظرة عامة -->
+                <section id="overview" class="content-section active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalShipments">0</h3>
+                                <p data-i18n="dashboard.totalShipments">إجمالي الشحنات</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon success">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="activeShipments">0</h3>
+                                <p data-i18n="dashboard.activeShipments">شحنات نشطة</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="averageRating">0.0</h3>
+                                <p data-i18n="dashboard.averageRating">متوسط التقييم</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon info">
+                                <i class="fas fa-hand-holding-heart"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalDonations">0</h3>
+                                <p data-i18n="dashboard.totalDonations">إجمالي التبرعات</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="charts-section">
+                        <div class="chart-card">
+                            <h3 data-i18n="dashboard.shipmentsChart">نشاط الشحنات</h3>
+                            <canvas id="shipmentsChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3 data-i18n="dashboard.typesChart">أنواع الشحنات</h3>
+                            <canvas id="typesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="recent-activity">
+                        <div class="section-header">
+                            <h3 data-i18n="dashboard.recentActivity">آخر النشاطات</h3>
+                            <a href="#shipments" class="view-all" data-i18n="dashboard.viewAll">عرض الكل</a>
+                        </div>
+                        <div class="activity-list" id="activityList">
+                            <!-- سيتم ملؤها بالبيانات -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- الشحنات -->
+                <section id="shipments" class="content-section">
+                    <div class="section-header">
+                        <h2 data-i18n="dashboard.shipments">شحناتي</h2>
+                        <div class="section-actions">
+                            <div class="filters">
+                                <select id="statusFilter">
+                                    <option value="all" data-i18n="dashboard.allStatus">جميع الحالات</option>
+                                    <option value="active" data-i18n="dashboard.active">نشطة</option>
+                                    <option value="completed" data-i18n="dashboard.completed">مكتملة</option>
+                                    <option value="cancelled" data-i18n="dashboard.cancelled">ملغية</option>
+                                </select>
+                                <input type="text" id="searchShipments" placeholder="بحث في الشحنات...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shipments-container">
+                        <div class="shipments-grid" id="shipmentsGrid">
+                            <!-- سيتم ملؤها بالبيانات -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- العروض -->
+                <section id="offers" class="content-section">
+                    <div class="section-header">
+                        <h2 data-i18n="dashboard.offers">العروض المقدمة</h2>
+                    </div>
+                    <div class="offers-container">
+                        <div class="offers-list" id="offersList">
+                            <!-- سيتم ملؤها بالبيانات -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- الرسائل -->
+                <section id="messages" class="content-section">
+                    <div class="section-header">
+                        <h2 data-i18n="dashboard.messages">الرسائل</h2>
+                    </div>
+                    <div class="messages-container">
+                        <div class="conversations-list" id="conversationsList">
+                            <!-- سيتم ملؤها بالبيانات -->
+                        </div>
+                        <div class="chat-container">
+                            <div class="chat-header">
+                                <h4 id="chatTitle">اختر محادثة</h4>
+                            </div>
+                            <div class="chat-messages" id="chatMessages">
+                                <div class="no-chat-selected">
+                                    <i class="fas fa-comments"></i>
+                                    <p data-i18n="dashboard.selectConversation">اختر محادثة لبدء المراسلة</p>
+                                </div>
+                            </div>
+                            <div class="chat-input" id="chatInput" style="display: none;">
+                                <input type="text" id="messageInput" placeholder="اكتب رسالتك...">
+                                <button class="btn-primary" onclick="sendMessage()">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- التقييمات -->
+                <section id="ratings" class="content-section">
+                    <div class="section-header">
+                        <h2 data-i18n="dashboard.ratings">التقييمات</h2>
+                    </div>
+                    <div class="ratings-container">
+                        <div class="ratings-summary">
+                            <div class="rating-overview">
+                                <div class="average-rating">
+                                    <span class="rating-number" id="userRating">4.8</span>
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <p data-i18n="dashboard.averageRating">متوسط التقييم</p>
+                                </div>
+                            </div>
+                            <div class="rating-breakdown">
+                                <h4 data-i18n="dashboard.ratingBreakdown">تفصيل التقييمات</h4>
+                                <div class="rating-bars">
+                                    <div class="rating-bar">
+                                        <span>5 نجوم</span>
+                                        <div class="bar">
+                                            <div class="fill" style="width: 80%"></div>
+                                        </div>
+                                        <span>80%</span>
+                                    </div>
+                                    <div class="rating-bar">
+                                        <span>4 نجوم</span>
+                                        <div class="bar">
+                                            <div class="fill" style="width: 15%"></div>
+                                        </div>
+                                        <span>15%</span>
+                                    </div>
+                                    <div class="rating-bar">
+                                        <span>3 نجوم</span>
+                                        <div class="bar">
+                                            <div class="fill" style="width: 5%"></div>
+                                        </div>
+                                        <span>5%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reviews-list" id="reviewsList">
+                            <!-- سيتم ملؤها بالبيانات -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- المحفظة -->
+                <section id="wallet" class="content-section">
+                    <div class="section-header">
+                        <h2 data-i18n="dashboard.wallet">المحفظة</h2>
+                    </div>
+                    <div class="wallet-container">
+                        <div class="wallet-balance">
+                            <div class="balance-card">
+                                <h3 data-i18n="dashboard.currentBalance">الرصيد الحالي</h3>
+                                <span class="balance-amount" id="walletBalance">0.00 ريال</span>
+                            </div>
+                        </div>
+                        <div class="transactions-history">
+                            <h3 data-i18n="dashboard.transactions">سجل المعاملات</h3>
+                            <div class="transactions-list" id="transactionsList">
+                                <!-- سيتم ملؤها بالبيانات -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- الإعدادات -->
+                <section id="settings" class="content-section">
+                    <div class="section-header">
+                        <h2 data-i18n="dashboard.settings">الإعدادات</h2>
+                    </div>
+                    <div class="settings-container">
+                        <div class="settings-tabs">
+                            <button class="tab-btn active" onclick="showSettingsTab('profile')" data-i18n="dashboard.profile">الملف الشخصي</button>
+                            <button class="tab-btn" onclick="showSettingsTab('preferences')" data-i18n="dashboard.preferences">التفضيلات</button>
+                            <button class="tab-btn" onclick="showSettingsTab('notifications')" data-i18n="dashboard.notifications">الإشعارات</button>
+                            <button class="tab-btn" onclick="showSettingsTab('security')" data-i18n="dashboard.security">الأمان</button>
+                        </div>
+                        
+                        <div class="settings-content">
+                            <!-- الملف الشخصي -->
+                            <div id="profileSettings" class="settings-tab active">
+                                <form class="settings-form" id="profileForm">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label data-i18n="auth.fullName">الاسم الكامل</label>
+                                            <input type="text" id="profileName" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label data-i18n="auth.email">البريد الإلكتروني</label>
+                                            <input type="email" id="profileEmail" required readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label data-i18n="auth.phone">رقم الجوال</label>
+                                            <input type="tel" id="profilePhone" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label data-i18n="dashboard.city">المدينة</label>
+                                            <input type="text" id="profileCity" required>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn-primary">
+                                        <i class="fas fa-save"></i>
+                                        <span data-i18n="dashboard.saveChanges">حفظ التغييرات</span>
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- التفضيلات -->
+                            <div id="preferencesSettings" class="settings-tab">
+                                <form class="settings-form" id="preferencesForm">
+                                    <div class="form-group">
+                                        <label data-i18n="dashboard.preferredLanguage">اللغة المفضلة</label>
+                                        <select id="preferredLanguage">
+                                            <option value="ar">العربية</option>
+                                            <option value="en">English</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label data-i18n="dashboard.currency">العملة</label>
+                                        <select id="preferredCurrency">
+                                            <option value="SAR">ريال سعودي (SAR)</option>
+                                            <option value="USD">دولار أمريكي (USD)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="emailNotifications">
+                                            <span data-i18n="dashboard.emailNotifications">الإشعارات البريدية</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="smsNotifications">
+                                            <span data-i18n="dashboard.smsNotifications">إشعارات SMS</span>
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="btn-primary">
+                                        <i class="fas fa-save"></i>
+                                        <span data-i18n="dashboard.savePreferences">حفظ التفضيلات</span>
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- الأمان -->
+                            <div id="securitySettings" class="settings-tab">
+                                <form class="settings-form" id="securityForm">
+                                    <div class="form-group">
+                                        <label data-i18n="auth.password">كلمة المرور الحالية</label>
+                                        <input type="password" id="currentPassword" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label data-i18n="auth.newPassword">كلمة المرور الجديدة</label>
+                                        <input type="password" id="newPassword" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label data-i18n="auth.confirmPassword">تأكيد كلمة المرور</label>
+                                        <input type="password" id="confirmNewPassword" required>
+                                    </div>
+                                    <button type="submit" class="btn-primary">
+                                        <i class="fas fa-key"></i>
+                                        <span data-i18n="dashboard.changePassword">تغيير كلمة المرور</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- النوافذ المنبثقة -->
+    <div class="modal" id="shipmentDetailsModal">
+        <div class="modal-content large">
+            <span class="close" onclick="closeModal('shipmentDetailsModal')">&times;</span>
+            <h2 data-i18n="dashboard.shipmentDetails">تفاصيل الشحنة</h2>
+            <div id="shipmentDetailsContent">
+                <!-- سيتم ملؤها بالبيانات -->
+            </div>
+        </div>
+    </div>
+
+    <!-- الإشعارات -->
+    <div class="notifications-container" id="notificationsContainer"></div>
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="dashboard.js"></script>
+    <script type="module" src="./firebase.js"></script>
+    <script src="./i18n.js"></script>
+    <script src="./dashboard.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // تحميل اللغة المفضلة
+            const savedLang = localStorage.getItem('preferredLanguage') || 'ar';
+            document.getElementById('dashboardLanguage').value = savedLang;
+            
+            // تهيئة لوحة التحكم
+            if (typeof initializeDashboard === 'function') {
+                initializeDashboard();
+            }
+        });
+    </script>
 </body>
 </html>
