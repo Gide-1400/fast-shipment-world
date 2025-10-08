@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الشحنة السريعة – من بيتك إلى العالم</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @media (max-width: 768px) {
+            .hero-buttons { flex-direction: column; gap: 1rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .hero-title { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-bar" id="loadingBar"></div>
+    <div class="notifications-container" id="notificationsContainer"></div>
+
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-shipping-fast"></i>
+                <span>الشحنة السريعة</span>
+            </div>
+            <nav class="nav">
+                <a href="#home" class="nav-link active">الرئيسية</a>
+                <a href="#features" class="nav-link">المميزات</a>
+                <a href="#how-it-works" class="nav-link">كيف تعمل</a>
+                <a href="#contact" class="nav-link">تواصل معنا</a>
+                <div class="language-switcher">
+                    <select id="languageSwitcher" onchange="changeLanguage(this.value)">
+                        <option value="ar">العربية</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                <div class="auth-buttons" id="authButtons">
+                    <button class="btn-login" onclick="showLogin()">تسجيل الدخول</button>
+                    <button class="btn-register" onclick="showRegister()">إنشاء حساب</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">🌍 ارسل شحنتك من بيتك إلى كل أنحاء العالم</h1>
+                <p class="hero-description">
+                    أول منصة عالمية تجمع بين مرسلي الشحنات والناقلين من جميع أنواع النقل من دراجة نارية إلى سفينة - من تاكسي إلى طائرة - بدون عمولة إجبارية!
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="statsShipments">0</span>
+                        <span class="stat-label">شحنة ناجحة</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="statsCarriers">0</span>
+                        <span class="stat-label">ناقل موثوق</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">0%</span>
+                        <span class="stat-label">عمولة إجبارية</span>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="checkAuthThenCreateShipment()">أرسل شحنة الآن</button>
+                    <button class="btn-secondary" onclick="checkAuthThenBecomeCarrier()">كن ناقلاً</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 الشحنة السريعة. جميع الحقوق محفوظة | منصة ربط غير ربحية</p>
+        </div>
+    </footer>
+
+    <!-- النوافذ المنبثقة -->
+    <div class="modal" id="loginModal">...</div>
+    <div class="modal" id="registerModal">...</div>
+
+    <script type="module" src="./firebase.js"></script>
+    <script src="./i18n.js"></script>
+    <script type="module" src="./auth.js"></script>
+    <script type="module" src="./main.js"></script>
+</body>
+</html>
