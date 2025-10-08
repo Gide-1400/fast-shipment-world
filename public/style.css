@@ -1,0 +1,40 @@
+/* إصلاح التصميم المتجاوب */
+@media (max-width: 768px) {
+    .hero-buttons {
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    .hero-title {
+        font-size: 1.8rem;
+        line-height: 1.4;
+    }
+    .hero-description {
+        font-size: 1rem;
+    }
+    .stat-number {
+        font-size: 2rem;
+    }
+    .modal-content {
+        width: 95%;
+        margin: 5% auto;
+    }
+    .dashboard-container {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    .main-content {
+        margin-right: 0;
+        width: 100%;
+    }
+}
