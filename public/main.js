@@ -1,21 +1,27 @@
-import { auth, db, collection, addDoc, query, where, onSnapshot, serverTimestamp } from './firebase.js';
+import { auth, db, collection, addDoc, query, where, onSnapshot, serverTimestamp, getDocs } from './firebase.js';
 
 export function initializeApp() {
     setupAuthListener();
     loadRealtimeStats();
+    loadUserData();
     setupShipmentForm();
 }
 
-function setupAuthListener() {
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            updateUIForAuthenticatedUser();
-        } else {
-            updateUIForUnauthenticatedUser();
-        }
-    });
+// ✅ بيانات المستخدم الحقيقية
+async function loadUserData() {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const q = query(collection(db, 'users'), where('uid', '==', user.uid));
+    const snap = await getDocs(q);
+    if (!snap.empty) {
+        const doc = snap.docs[0].data();
+        document.getElementById('userName').textContent = doc.name || 'المستخدم';
+        document.getElementById('userType').textContent = doc.type === 'sender' ? 'مرسل' : doc.type === 'carrier' ? 'ناقل' : 'مرسل وناقل';
+    }
 }
 
+// ✅ الإحصائيات الحقيقية
 function loadRealtimeStats() {
     const shipmentsRef = collection(db, 'shipments');
     const carriersRef = collection(db, 'users');
@@ -29,48 +35,20 @@ function loadRealtimeStats() {
     });
 }
 
-function setupShipmentForm() {
-    const form = document.getElementById('shipmentForm');
-    if (!form) return;
+// ✅ تسجيل الدخول + التسجيل
+window.showLogin = function() {
+    document.getElementById('loginModal').style.display = 'block';
+};
 
-    form.addEventListener('submit', async e => {
-        e.preventDefault();
-        const user = auth.currentUser;
-        if (!user) {
-            alert('يرجى تسجيل الدخول أولاً');
-            return;
-        }
-
-        const data = {
-            senderId: user.uid,
-            senderName: user.displayName || user.email,
-            fromCity: document.getElementById('fromCity').value.trim(),
-            toCity: document.getElementById('toCity').value.trim(),
-            shipmentType: document.getElementById('shipmentType').value,
-            weight: document.getElementById('weight').value.trim(),
-            budget: parseFloat(document.getElementById('budget').value),
-            urgency: document.getElementById('urgency').value,
-            description: document.getElementById('description').value.trim(),
-            voluntaryDonation: document.getElementById('voluntaryDonation').checked,
-            status: 'active',
-            createdAt: serverTimestamp()
-        };
-
-        try {
-            await addDoc(collection(db, 'shipments'), data);
-            alert('تم إنشاء الشحنة بنجاح');
-            form.reset();
-        } catch (error) {
-            alert('حدث خطأ أثناء إنشاء الشحنة');
-        }
-    });
-}
+window.showRegister = function() {
+    document.getElementById('registerModal').style.display = 'block';
+};
 
 window.checkAuthThenCreateShipment = function() {
     const user = auth.currentUser;
     if (!user) {
         alert('يرجى تسجيل الدخول أولاً');
-        document.getElementById('loginModal').style.display = 'block';
+        showLogin();
         return;
     }
     document.getElementById('quickShipment').scrollIntoView({ behavior: 'smooth' });
@@ -80,16 +58,8 @@ window.checkAuthThenBecomeCarrier = function() {
     const user = auth.currentUser;
     if (!user) {
         alert('يرجى تسجيل الدخول أولاً');
-        document.getElementById('loginModal').style.display = 'block';
+        showLogin();
         return;
     }
     window.location.href = 'carrier.html';
-};
-
-window.showLogin = function() {
-    document.getElementById('loginModal').style.display = 'block';
-};
-
-window.showRegister = function() {
-    document.getElementById('registerModal').style.display = 'block';
 };
