@@ -1,13 +1,12 @@
-import { auth, db, collection, addDoc, query, where, onSnapshot, serverTimestamp, getDocs } from './firebase.js';
+import { auth, db, collection, addDoc, query, where, onSnapshot, serverTimestamp } from './firebase.js';
 
-// تهيئة التطبيق
 export function initializeApp() {
     setupAuthListener();
     loadRealtimeStats();
     setupShipmentForm();
+    // ✅ العنوان ثابت: "ارسل شحنتك من بيتك إلى كل أنحاء العالم"
 }
 
-// متابعة حالة المصادقة
 function setupAuthListener() {
     auth.onAuthStateChanged(user => {
         if (user) {
@@ -18,7 +17,6 @@ function setupAuthListener() {
     });
 }
 
-// تحميل الإحصائيات الحقيقية
 function loadRealtimeStats() {
     const shipmentsRef = collection(db, 'shipments');
     const carriersRef = collection(db, 'users');
@@ -32,7 +30,6 @@ function loadRealtimeStats() {
     });
 }
 
-// إعداد نموذج إنشاء الشحنة
 function setupShipmentForm() {
     const form = document.getElementById('shipmentForm');
     if (!form) return;
@@ -74,22 +71,12 @@ function setupShipmentForm() {
             showAlert('حدث خطأ أثناء إنشاء الشحنة', 'error');
         }
     });
-
-    // حساب التبرع التلقائي
-    const budgetInput = document.getElementById('budget');
-    const donationCheckbox = document.getElementById('voluntaryDonation');
-    if (budgetInput && donationCheckbox) {
-        budgetInput.addEventListener('input', updateDonationAmount);
-        donationCheckbox.addEventListener('change', updateDonationAmount);
-    }
 }
 
-// تحديث مبلغ التبرع
 function updateDonationAmount() {
     const donationCheckbox = document.getElementById('voluntaryDonation');
     const budgetInput = document.getElementById('budget');
     const donationAmount = document.getElementById('donationAmount');
-
     if (donationCheckbox && donationCheckbox.checked && budgetInput && budgetInput.value) {
         const donation = parseFloat(budgetInput.value) * 0.01;
         donationAmount.textContent = `${donation.toFixed(2)} ريال`;
@@ -98,7 +85,6 @@ function updateDonationAmount() {
     }
 }
 
-// تحديث واجهة المستخدم بعد تسجيل الدخول
 function updateUIForAuthenticatedUser() {
     const authButtons = document.getElementById('authButtons');
     if (authButtons) {
@@ -114,7 +100,6 @@ function updateUIForAuthenticatedUser() {
     }
 }
 
-// تحديث واجهة المستخدم بعد تسجيل الخروج
 function updateUIForUnauthenticatedUser() {
     const authButtons = document.getElementById('authButtons');
     if (authButtons) {
@@ -126,7 +111,6 @@ function updateUIForUnauthenticatedUser() {
     }
 }
 
-// تسجيل الخروج
 window.logout = async function() {
     try {
         await signOut(auth);
@@ -137,40 +121,14 @@ window.logout = async function() {
     }
 };
 
-// إظهار نافذة تسجيل الدخول
-window.showLogin = function() {
-    document.getElementById('loginModal').style.display = 'block';
-};
-
-// إظهار نافذة التسجيل
-window.showRegister = function() {
-    document.getElementById('registerModal').style.display = 'block';
-};
-
-// إغلاق النافذة
-window.closeModal = function(id) {
-    document.getElementById(id).style.display = 'none';
-};
-
-// التنقل السلس
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
-    });
-});
-
-// إظهار الأخطاء
 function showAlert(message, type = 'info') {
     const container = document.getElementById('notificationsContainer');
     if (!container) return;
-
     const alert = document.createElement('div');
     alert.className = `alert alert-${type}`;
     alert.innerHTML = `
         <div class="alert-content">
-            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
             <span>${message}</span>
         </div>
         <button class="alert-close" onclick="this.parentElement.remove()">&times;</button>
