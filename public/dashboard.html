@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - الشحنة السريعة</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- شريط التنقل الجانبي -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-shipping-fast"></i>
+                <span>الشحنة السريعة</span>
+            </div>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="active">
+                <a href="#overview" onclick="showSection('overview')">
+                    <i class="fas fa-chart-line"></i>
+                    <span>نظرة عامة</span>
+                </a>
+            </li>
+            <li>
+                <a href="#shipments" onclick="showSection('shipments')">
+                    <i class="fas fa-box"></i>
+                    <span>شحناتي</span>
+                </a>
+            </li>
+            <li>
+                <a href="#offers" onclick="showSection('offers')">
+                    <i class="fas fa-handshake"></i>
+                    <span>العروض</span>
+                </a>
+            </li>
+            <li>
+                <a href="#messages" onclick="showSection('messages')">
+                    <i class="fas fa-comments"></i>
+                    <span>الرسائل</span>
+                </a>
+            </li>
+            <li>
+                <a href="#ratings" onclick="showSection('ratings')">
+                    <i class="fas fa-star"></i>
+                    <span>التقييمات</span>
+                </a>
+            </li>
+            <li>
+                <a href="#settings" onclick="showSection('settings')">
+                    <i class="fas fa-cog"></i>
+                    <span>الإعدادات</span>
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <button onclick="logout()" class="btn-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>خروج</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+        <!-- الهيدر -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <h1 id="pageTitle">لوحة التحكم</h1>
+                <p id="pageSubtitle">مرحباً، <span id="userName">أحمد</span></p>
+            </div>
+            <div class="header-right">
+                <button class="btn-primary" onclick="createNewShipment()">
+                    <i class="fas fa-plus"></i>
+                    شحنة جديدة
+                </button>
+                <div class="notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- قسم النظرة العامة -->
+        <section id="overview" class="content-section active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalShipments">12</h3>
+                        <p>إجمالي الشحنات</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="activeShipments">3</h3>
+                        <p>شحنات نشطة</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="averageRating">4.8</h3>
+                        <p>متوسط التقييم</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-money-bill"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalDonations">125.50</h3>
+                        <p>إجمالي التبرعات</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts-section">
+                <div class="chart-card">
+                    <h3>نشاط الشحنات</h3>
+                    <canvas id="shipmentsChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>أنواع الشحنات</h3>
+                    <canvas id="typesChart"></canvas>
+                </div>
+            </div>
+
+            <div class="recent-activity">
+                <h3>آخر النشاطات</h3>
+                <div class="activity-list" id="activityList">
+                    <!-- يتم ملؤها بالبيانات الديناميكية -->
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم الشحنات -->
+        <section id="shipments" class="content-section">
+            <div class="section-header">
+                <h2>شحناتي</h2>
+                <div class="filters">
+                    <select id="statusFilter">
+                        <option value="all">جميع الحالات</option>
+                        <option value="active">نشطة</option>
+                        <option value="completed">مكتملة</option>
+                        <option value="cancelled">ملغية</option>
+                    </select>
+                    <input type="text" placeholder="بحث..." id="searchShipments">
+                </div>
+            </div>
+            <div class="shipments-grid" id="shipmentsGrid">
+                <!-- يتم ملؤها بالبيانات -->
+            </div>
+        </section>
+
+        <!-- قسم العروض -->
+        <section id="offers" class="content-section">
+            <div class="section-header">
+                <h2>العروض المقدمة</h2>
+            </div>
+            <div class="offers-list" id="offersList">
+                <!-- يتم ملؤها بالبيانات -->
+            </div>
+        </section>
+
+        <!-- قسم الرسائل -->
+        <section id="messages" class="content-section">
+            <div class="chat-container">
+                <div class="chat-sidebar">
+                    <h3>المحادثات</h3>
+                    <div class="chat-list" id="chatList">
+                        <!-- يتم ملؤها بالبيانات -->
+                    </div>
+                </div>
+                <div class="chat-main">
+                    <div class="chat-header">
+                        <h4 id="chatTitle">اختر محادثة</h4>
+                    </div>
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="no-chat-selected">
+                            <i class="fas fa-comments"></i>
+                            <p>اختر محادثة لبدء المراسلة</p>
+                        </div>
+                    </div>
+                    <div class="chat-input" id="chatInput" style="display: none;">
+                        <input type="text" placeholder="اكتب رسالتك..." id="messageInput">
+                        <button onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم التقييمات -->
+        <section id="ratings" class="content-section">
+            <div class="ratings-summary">
+                <div class="rating-card">
+                    <h3>متوسط تقييماتي</h3>
+                    <div class="rating-display">
+                        <span class="rating-number">4.8</span>
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="rating-breakdown">
+                    <h3>تفصيل التقييمات</h5>
+                    <div class="rating-bar">
+                        <span>5 نجوم</span>
+                        <div class="bar">
+                            <div class="fill" style="width: 80%"></div>
+                        </div>
+                        <span>80%</span>
+                    </div>
+                    <div class="rating-bar">
+                        <span>4 نجوم</span>
+                        <div class="bar">
+                            <div class="fill" style="width: 15%"></div>
+                        </div>
+                        <span>15%</span>
+                    </div>
+                    <div class="rating-bar">
+                        <span>3 نجوم</span>
+                        <div class="bar">
+                            <div class="fill" style="width: 5%"></div>
+                        </div>
+                        <span>5%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="reviews-list" id="reviewsList">
+                <!-- يتم ملؤها بالبيانات -->
+            </div>
+        </section>
+
+        <!-- قسم الإعدادات -->
+        <section id="settings" class="content-section">
+            <div class="settings-tabs">
+                <button class="tab-btn active" onclick="showSettingsTab('profile')">الملف الشخصي</button>
+                <button class="tab-btn" onclick="showSettingsTab('preferences')">التفضيلات</button>
+                <button class="tab-btn" onclick="showSettingsTab('notifications')">الإشعارات</button>
+                <button class="tab-btn" onclick="showSettingsTab('privacy')">الخصوصية</button>
+            </div>
+            
+            <div id="profileSettings" class="settings-tab active">
+                <form class="settings-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>الاسم الكامل</label>
+                            <input type="text" value="أحمد محمد" required>
+                        </div>
+                        <div class="form-group">
+                            <label>البريد الإلكتروني</label>
+                            <input type="email" value="ahmed@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>رقم الجوال</label>
+                            <input type="tel" value="0501234567" required>
+                        </div>
+                        <div class="form-group">
+                            <label>المدينة</label>
+                            <input type="text" value="الرياض" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">حفظ التغييرات</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
