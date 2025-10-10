@@ -28,4 +28,9 @@ function showSection(sectionName) {
 
     updatePageTitle(sectionName);
     loadSectionData(sectionName);
+
 }
+
+// عرض اسم المستخدم الحقيقي
+const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+document.getElementById('userName').textContent = user.name || user.email || 'زائر';
