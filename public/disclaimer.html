@@ -16,5 +16,23 @@
     </p>
     <a href="index.html">العودة للرئيسية</a>
   </div>
+  <script>
+function showAdminSection(sectionName) {
+  document.querySelectorAll('.admin-section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById('admin' + sectionName.charAt(0).toUpperCase() + sectionName.slice(1)).classList.add('active');
+  document.querySelectorAll('.admin-nav a').forEach(a => a.classList.remove('active'));
+  document.querySelector(`.admin-nav a[href="#${sectionName}"]`).classList.add('active');
+  const titles = {
+    overview: 'نظرة عامة',
+    users: 'إدارة المستخدمين',
+    shipments: 'إدارة الشحنات',
+    messages: 'الرسائل',
+    donations: 'التبرعات',
+    settings: 'الإعدادات'
+  };
+  document.getElementById('adminTitle').textContent = titles[sectionName] || 'لوحة التحكم';
+}
+</script>
 </body>
+
 </html>
