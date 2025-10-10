@@ -1,110 +1,168 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>لوحة تحكم المسؤول - الشحنة السريعة</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="dashboard.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم المسؤول - الشحنة السريعة</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-  <div class="admin-container">
+    <!-- الهيدر العلوي -->
+    <header class="admin-header">
+        <h1 id="adminTitle">لوحة تحكم المسؤول</h1>
+        <div class="admin-actions">
+            <button class="btn-logout" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> خروج
+            </button>
+        </div>
+    </header>
+
+    <!-- القائمة الجانبية -->
     <aside class="admin-sidebar">
-      <div class="admin-logo">
-        <i class="fas fa-shipping-fast"></i>
-        <span>لوحة المسؤول</span>
-      </div>
-      <nav class="admin-nav">
-        <a href="#overview" class="nav-link active" onclick="showAdminSection('overview')">
-          <i class="fas fa-chart-line"></i> نظرة عامة
-        </a>
-        <a href="#users" class="nav-link" onclick="showAdminSection('users')">
-          <i class="fas fa-users"></i> المستخدمين
-        </a>
-        <a href="#shipments" class="nav-link" onclick="showAdminSection('shipments')">
-          <i class="fas fa-box"></i> الشحنات
-        </a>
-        <a href="#messages" class="nav-link" onclick="showAdminSection('messages')">
-          <i class="fas fa-comments"></i> الرسائل
-        </a>
-        <a href="#donations" class="nav-link" onclick="showAdminSection('donations')">
-          <i class="fas fa-hand-holding-heart"></i> التبرعات
-        </a>
-        <a href="#settings" class="nav-link" onclick="showAdminSection('settings')">
-          <i class="fas fa-cog"></i> الإعدادات
-        </a>
-      </nav>
+        <div class="admin-logo">
+            <i class="fas fa-shipping-fast"></i>
+            <span>لوحة المسؤول</span>
+        </div>
+        <nav class="admin-nav">
+            <a href="#overview" class="nav-link active" onclick="showAdminSection('overview')">
+                <i class="fas fa-chart-line"></i> نظرة عامة
+            </a>
+            <a href="#users" class="nav-link" onclick="showAdminSection('users')">
+                <i class="fas fa-users"></i> المستخدمين
+            </a>
+            <a href="#shipments" class="nav-link" onclick="showAdminSection('shipments')">
+                <i class="fas fa-box"></i> الشحنات
+            </a>
+            <a href="#messages" class="nav-link" onclick="showAdminSection('messages')">
+                <i class="fas fa-comments"></i> الرسائل
+            </a>
+            <a href="#donations" class="nav-link" onclick="showAdminSection('donations')">
+                <i class="fas fa-hand-holding-heart"></i> التبرعات
+            </a>
+            <a href="#settings" class="nav-link" onclick="showAdminSection('settings')">
+                <i class="fas fa-cog"></i> الإعدادات
+            </a>
+        </nav>
     </aside>
 
+    <!-- المحتوى الرئيسي -->
     <main class="admin-main">
-      <header class="admin-header">
-        <h1 id="adminTitle">لوحة تحكم المسؤول</h1>
-        <button class="btn-logout" onclick="logout()">
-          <i class="fas fa-sign-out-alt"></i> خروج
-        </button>
-      </header>
+        <!-- نظرة عامة -->
+        <section id="adminOverview" class="admin-section active">
+            <div class="admin-stats">
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-info"><h3 id="totalUsers">0</h3><p>إجمالي المستخدمين</p></div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-box"></i></div><div class="stat-info"><h3 id="totalShipments">0</h3><p>إجمالي الشحنات</p></div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-hand-holding-heart"></i></div><div class="stat-info"><h3 id="totalDonations">0</h3><p>إجمالي التبرعات (ريال)</p></div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-chart-line"></i></div><div class="stat-info"><h3 id="growthRate">+0%</h3><p>معدل النمو</p></div></div>
+            </div>
 
-      <!-- الأقسام -->
-      <section id="adminOverview" class="admin-section active">
-        <h2>نظرة عامة</h2>
-        <p>هذا القسم يعرض إحصائيات عامة عن المنصة.</p>
-      </section>
+            <div class="admin-charts">
+                <div class="chart-container"><h3>نمو المستخدمين</h3><canvas id="usersChart"></canvas></div>
+                <div class="chart-container"><h3>أنواع الشحنات</h3><canvas id="shipmentsTypeChart"></canvas></div>
+            </div>
+        </section>
 
-      <section id="adminUsers" class="admin-section">
-        <h2>إدارة المستخدمين</h2>
-        <p>هنا يتم عرض جدول المستخدمين.</p>
-      </section>
+        <!-- المستخدمين -->
+        <section id="adminUsers" class="admin-section">
+            <h2>إدارة المستخدمين</h2>
+            <div class="users-table" id="usersTable"></div>
+        </section>
 
-      <section id="adminShipments" class="admin-section">
-        <h2>إدارة الشحنات</h2>
-        <p>هنا يتم عرض جدول الشحنات.</p>
-      </section>
+        <!-- الشحنات -->
+        <section id="adminShipments" class="admin-section">
+            <h2>إدارة الشحنات</h2>
+            <div class="filters">
+                <select id="shipmentStatusFilter" onchange="filterAdminShipments()">
+                    <option value="all">جميع الحالات</option>
+                    <option value="active">نشطة</option>
+                    <option value="completed">مكتملة</option>
+                    <option value="cancelled">ملغية</option>
+                </select>
+            </div>
+            <div class="shipments-table" id="adminShipmentsTable"></div>
+        </section>
 
-      <section id="adminMessages" class="admin-section">
-        <h2>الرسائل</h2>
-        <p>هنا تظهر رسائل المستخدمين.</p>
-      </section>
+        <!-- الرسائل -->
+        <section id="adminMessages" class="admin-section">
+            <h2>رسائل المستخدمين</h2>
+            <div class="messages-list" id="adminMessagesList"></div>
+        </section>
 
-      <section id="adminDonations" class="admin-section">
-        <h2>التبرعات</h2>
-        <p>هنا تظهر التبرعات.</p>
-      </section>
+        <!-- التبرعات -->
+        <section id="adminDonations" class="admin-section">
+            <h2>التبرعات الطوعية</h2>
+            <div class="donations-summary">
+                <div class="donation-stat"><h3>إجمالي التبرعات</h3><span id="totalDonationsAmount">0 ريال</span></div>
+                <div class="donation-stat"><h3>عدد المساهمين</h3><span id="totalDonors">0</span></div>
+            </div>
+            <div class="donations-table" id="donationsTable"></div>
+        </section>
 
-      <section id="adminSettings" class="admin-section">
-        <h2>الإعدادات</h2>
-        <p>من هنا يمكن تعديل إعدادات المنصة.</p>
-      </section>
+        <!-- الإعدادات -->
+        <section id="adminSettings" class="admin-section">
+            <h2>إعدادات المنصة</h2>
+            <div class="settings-form">
+                <div class="form-group">
+                    <label>نسبة العمولة الافتراضية للمرسل (%)</label>
+                    <input type="number" id="senderCommission" value="1" min="0" max="10">
+                </div>
+                <div class="form-group">
+                    <label>نسبة العمولة الافتراضية للناقل (%)</label>
+                    <input type="number" id="carrierCommission" value="2" min="0" max="10">
+                </div>
+                <div class="form-group">
+                    <label>رسالة الترحيب</label>
+                    <textarea id="welcomeMessage" rows="4">مرحباً في منصة الشحنة السريعة!</textarea>
+                </div>
+                <button class="btn-primary" onclick="saveSettings()">
+                    <i class="fas fa-save"></i> حفظ الإعدادات
+                </button>
+            </div>
+        </section>
     </main>
-  </div>
 
-  <!-- سكريبت التفاعل -->
-  <script>
-    function showAdminSection(sectionName) {
-      // إخفاء كل الأقسام
-      document.querySelectorAll('.admin-section').forEach(sec => sec.classList.remove('active'));
-      // إظهار القسم المطلوب
-      document.getElementById('admin' + sectionName.charAt(0).toUpperCase() + sectionName.slice(1)).classList.add('active');
+    <!-- سكريبتات -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="admin.js"></script>
 
-      // تفعيل الزر في القائمة
-      document.querySelectorAll('.admin-nav a').forEach(a => a.classList.remove('active'));
-      document.querySelector(`.admin-nav a[href="#${sectionName}"]`).classList.add('active');
+    <!-- تبديل الأقسام + عرض اسم المستخدم الحقيقي -->
+    <script>
+        // عرض اسم المستخدم الحقيقي
+        const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        document.getElementById('userName').textContent = user.name || user.email || 'زائر';
 
-      // تغيير العنوان
-      const titles = {
-        overview: 'نظرة عامة',
-        users: 'إدارة المستخدمين',
-        shipments: 'إدارة الشحنات',
-        messages: 'الرسائل',
-        donations: 'التبرعات',
-        settings: 'الإعدادات'
-      };
-      document.getElementById('adminTitle').textContent = titles[sectionName] || 'لوحة التحكم';
-    }
+        // تبديل الأقسام
+        function showAdminSection(sectionName) {
+            // إخفاء جميع الأقسام
+            document.querySelectorAll('.admin-section').forEach(sec => sec.classList.remove('active'));
+            // إظهار القسم المطلوب
+            const target = document.getElementById('admin' + sectionName.charAt(0).toUpperCase() + sectionName.slice(1));
+            if (target) target.classList.add('active');
 
-    function logout() {
-      localStorage.removeItem('currentUser');
-      window.location.href = 'index.html';
-    }
-  </script>
+            // تفعيل الزر في القائمة
+            document.querySelectorAll('.admin-nav a').forEach(a => a.classList.remove('active'));
+            const activeLink = document.querySelector(`.admin-nav a[href="#${sectionName}"]`);
+            if (activeLink) activeLink.classList.add('active');
+
+            // تغيير العنوان
+            const titles = {
+                overview: 'نظرة عامة',
+                users: 'إدارة المستخدمين',
+                shipments: 'إدارة الشحنات',
+                messages: 'الرسائل',
+                donations: 'التبرعات',
+                settings: 'الإعدادات'
+            };
+            document.getElementById('adminTitle').textContent = titles[sectionName] || 'لوحة التحكم';
+        }
+
+        // خروج
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+    </script>
 </body>
 </html>
