@@ -92,4 +92,20 @@ function showLogin() {
 
 function showRegister() {
   document.getElementById('registerModal').style.display = 'block';
+
+}
+
+// إصلاح تسجيل الدخول + زر الشحنة
+document.addEventListener('DOMContentLoaded', () => {
+  setupAuthForms(); // تأكد أن هذه الدالة موجودة
+});
+
+function showCreateShipment() {
+  const user = localStorage.getItem('currentUser');
+  if (!user) {
+    alert('يرجى تسجيل الدخول أولاً');
+    document.getElementById('loginModal').style.display = 'block';
+    return;
+  }
+  document.getElementById('quickShipment').scrollIntoView({ behavior: 'smooth' });
 }
