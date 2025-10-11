@@ -1,0 +1,20 @@
+{
+  "name": "الشحنة-السريعة",
+  "version": "1.0.0",
+  "description": "منصة ربط عالمية غير ربحية للشحن",
+  "main": "index.html",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'No build step required'",
+    "test": "echo 'No tests specified'"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.3"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.10.1"
+  },
+  "keywords": ["shipping", "logistics", "global", "non-profit", "arabic"],
+  "author": "الشحنة السريعة",
+  "license": "MIT"
+}
