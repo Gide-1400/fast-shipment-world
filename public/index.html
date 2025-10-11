@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الشحنة السريعة - منصة الشحن العالمية</title>
+
+  <!-- الخطوط والأيقونات -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body>
+  <!-- الهيدر -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <i class="fas fa-shipping-fast"></i>
+        <span>الشحنة السريعة</span>
+      </div>
+
+      <nav class="nav">
+        <a href="#home" class="active">الرئيسية</a>
+        <a href="#features">المميزات</a>
+        <a href="#how-it-works">كيف تعمل</a>
+        <a href="#contact">تواصل معنا</a>
+
+        <div class="auth-buttons">
+          <button class="btn-login" onclick="showLogin()">تسجيل الدخول</button>
+          <button class="btn-register" onclick="showRegister()">إنشاء حساب</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- القسم الرئيسي -->
+  <section id="home" class="hero">
+    <div class="container">
+      <h1 class="hero-title">من حيك إلى العالم</h1>
+      <p class="hero-description">أول منصة عالمية تربط المرسلين مع الناقلين بكل أنواعهم</p>
+      
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number">+10K</span>
+          <span class="stat-label">شحنة ناجحة</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">+5K</span>
+          <span class="stat-label">ناقل موثوق</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">0%</span>
+          <span class="stat-label">عمولة إجبارية</span>
+        </div>
+      </div>
+
+      <div class="hero-buttons">
+        <button class="btn-primary" onclick="showCreateShipment()">
+          <i class="fas fa-shipping-fast"></i> أضف شحنتك الآن
+        </button>
+        <button class="btn-secondary" onclick="showRegister()">
+          <i class="fas fa-user-tie"></i> كن ناقلًا
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- المميزات -->
+  <section id="features" class="features">
+    <div class="container">
+      <h2 class="section-title">لماذا تختار الشحنة السريعة؟</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-globe"></i>
+          </div>
+          <h3>وصول عالمي</h3>
+          <p>من حيك لأي دولة في العالم - نفس المنصة، نفس الثقة</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-hand-holding-heart"></i>
+          </div>
+          <h3>عمولة طوعية</h3>
+          <p>1% من المرسل + 2% من الناقل - اختيارية تمامًا لدعم المنصة</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-star"></i>
+          </div>
+          <h3>تقييمات متبادلة</h3>
+          <p>نظام تقييم شفاف يساعدك في اختيار الأفضل وبناء الثقة</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- نموذج الشحنة السريع -->
+  <section id="quickShipment" class="shipment-form-section">
+    <div class="container">
+      <h2 class="section-title">أضف شحنتك الآن</h2>
+      <form class="shipment-form" id="quickShipmentForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fromCity">من (مدينة)</label>
+            <input type="text" id="fromCity" placeholder="مثال: الرياض" required>
+          </div>
+          <div class="form-group">
+            <label for="toCity">إلى (مدينة)</label>
+            <input type="text" id="toCity" placeholder="مثال: جدة" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="description">وصف الشحنة</label>
+          <textarea id="description" placeholder="صف الشحنة بالتفصيل..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary">
+          <i class="fas fa-paper-plane"></i> نشر الشحنة
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- الفوتر -->
+  <footer class="footer" id="contact">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>الشحنة السريعة</h3>
+          <p>منصة عالمية تربط المرسلين مع الناقلين بكل أنواعهم</p>
+        </div>
+        
+        <div class="footer-section">
+          <h3>روابط سريعة</h3>
+          <ul>
+            <li><a href="#features">المميزات</a></li>
+            <li><a href="#how-it-works">كيف تعمل</a></li>
+            <li><a href="disclaimer.html">إخلاء المسؤولية</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>الشحنة السريعة. جميع الحقوق محفوظة</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- نافذة تسجيل الدخول -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('loginModal')">&times;</span>
+      <h2><i class="fas fa-user-lock"></i> تسجيل الدخول</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" required />
+        </div>
+        <div class="form-group">
+          <input type="password" id="loginPassword" placeholder="كلمة المرور" required />
+        </div>
+        <button type="submit" class="btn-primary">دخول</button>
+      </form>
+      <p style="text-align: center; margin-top: 1rem;">
+        ليس لديك حساب؟ 
+        <a href="javascript:void(0)" onclick="switchToRegister()" style="color: var(--primary);">سجل الآن</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- نافذة إنشاء الحساب -->
+  <div class="modal" id="registerModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('registerModal')">&times;</span>
+      <h2><i class="fas fa-user-plus"></i> إنشاء حساب جديد</h2>
+      <form id="registerForm">
+        <div class="form-group">
+          <input type="text" id="regName" placeholder="الاسم الكامل" required />
+        </div>
+        <div class="form-group">
+          <input type="email" id="regEmail" placeholder="البريد الإلكتروني" required />
+        </div>
+        <div class="form-group">
+          <input type="password" id="regPassword" placeholder="كلمة المرور" required />
+        </div>
+        <button type="submit" class="btn-primary">إنشاء حساب</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+  <!-- التهيئة المبسطة -->
+  <script>
+    // التهيئة المباشرة
+    const firebaseConfig = {
+      apiKey: "AIzaSyCkr2Yy_HP_l1x_Hber8EPxQb9h6oabJyM",
+      authDomain: "fastship-new.firebaseapp.com",
+      projectId: "fastship-new",
+      storageBucket: "fastship-new.firebasestorage.app",
+      messagingSenderId: "977835487089",
+      appId: "1:977835487089:web:b7533c67af3f379df0d0d0"
+    };
+
+    // تهيئة Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <!-- سكربت الموقع -->
+  <script src="script.js"></script>
+</body>
+</html>
