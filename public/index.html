@@ -1,322 +1,132 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-i18n="site.title">الشحنة السريعة - منصة الشحن العالمية</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الشحنة السريعة - منصة الشحن العالمية</title>
 
-  <!-- خط عالمي -->
+  <!-- الخطوط والأيقونات -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    /* ===== Glass Black Tiger Modal ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+
+    .modal-content {
+      background: rgba(20, 20, 20, 0.9);
+      border: 1px solid rgba(255, 123, 0, 0.5);
+      border-radius: 16px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 420px;
+      color: #fff;
+      position: relative;
+      box-shadow: 0 0 25px rgba(255, 123, 0, 0.2);
+      animation: scaleIn 0.35s ease;
+    }
+    @keyframes scaleIn { from {transform:scale(0.8); opacity:0;} to {transform:scale(1); opacity:1;} }
+
+    .modal-content h2 {
+      color: #ff7b00;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .modal-content input, .modal-content select {
+      width: 100%;
+      margin: 0.4rem 0;
+      padding: 0.8rem;
+      border-radius: 8px;
+      border: none;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+    }
+    .modal-content button {
+      width: 100%;
+      padding: 0.9rem;
+      background: #ff7b00;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 0.8rem;
+    }
+    .modal-content button:hover {
+      background: #ff9500;
+    }
+    .close {
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      font-size: 1.5rem;
+      color: #aaa;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .close:hover { color: #ff7b00; }
+  </style>
 </head>
+
 <body>
-  <!-- شريط علوي عالمي -->
+  <!-- الهيدر -->
   <header class="header">
     <div class="container">
       <div class="logo">
         <i class="fas fa-shipping-fast"></i>
-        <span data-i18n="site.name">الشحنة السريعة</span>
+        <span>الشحنة السريعة</span>
       </div>
 
       <nav class="nav">
-        <a href="#home" class="active" data-i18n="nav.home">الرئيسية</a>
-        <a href="#features" data-i18n="nav.features">المميزات</a>
-        <a href="#how-it-works" data-i18n="nav.how">كيف تعمل</a>
-        <a href="#contact" data-i18n="nav.contact">تواصل معنا</a>
+        <a href="#home" class="active">الرئيسية</a>
+        <a href="#features">المميزات</a>
+        <a href="#how-it-works">كيف تعمل</a>
+        <a href="#contact">تواصل معنا</a>
 
-        <!-- تبديل اللغة -->
-        <div class="language-switcher">
-          <select id="language" onchange="changeLanguage(this.value)">
-            <option value="ar">العربية</option>
-            <option value="en">English</option>
-            <option value="fr">Français</option>
-            <option value="es">Español</option>
-          </select>
-        </div>
-
-        <!-- أزرار الدخول -->
         <div class="auth-buttons">
-          <button class="btn-login" onclick="showLogin()" data-i18n="nav.login">تسجيل الدخول</button>
-          <button class="btn-register" onclick="showRegister()" data-i18n="nav.register">إنشاء حساب</button>
+          <button class="btn-login" onclick="showLogin()">تسجيل الدخول</button>
+          <button class="btn-register" onclick="showRegister()">إنشاء حساب</button>
         </div>
       </nav>
     </div>
   </header>
 
-  <!-- القسم الرئيسي -->
+  <!-- قسم رئيسي -->
   <section id="home" class="hero">
     <div class="container">
-      <div class="hero-content">
-        <h1 class="hero-title">
-          <span data-i18n="hero.title">من حيك إلى العالم</span>
-          <br>
-          <span class="highlight" data-i18n="hero.subtitle">شحن سريع - عمولة طوعية - تقييمات موثوقة</span>
-        </h1>
-        <p class="hero-description" data-i18n="hero.desc">
-          أول منصة عالمية تجمع بين مرسلي الشحنات والناقلين من جميع أنواع النقل
-          <br>
-          من دراجة نارية إلى سفينة - من تاكسي إلى طائرة - بدون عمولة إجبارية!
-        </p>
-
-        <div class="hero-stats">
-          <div class="stat">
-            <span class="stat-number">50K+</span>
-            <span class="stat-label" data-i18n="hero.stat1">شحنة ناجحة</span>
-          </div>
-          <div class="stat">
-            <span class="stat-number">15K+</span>
-            <span class="stat-label" data-i18n="hero.stat2">ناقل موثوق</span>
-          </div>
-          <div class="stat">
-            <span class="stat-number">0%</span>
-            <span class="stat-label" data-i18n="hero.stat3">عمولة إجبارية</span>
-          </div>
-        </div>
-
-        <div class="hero-buttons">
-          <button class="btn-primary" onclick="showCreateShipment()">
-            <i class="fas fa-plus"></i>
-            <span data-i18n="hero.cta1">أرسل شحنة الآن</span>
-          </button>
-          <button class="btn-secondary" onclick="showCarrierRegister()">
-            <i class="fas fa-truck"></i>
-            <span data-i18n="hero.cta2">كن ناقلاً</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="hero-image">
-        <div class="shipping-types">
-          <div class="shipping-type">
-            <i class="fas fa-motorcycle"></i>
-            <span data-i18n="ship.motor">دراجة نارية</span>
-          </div>
-          <div class="shipping-type">
-            <i class="fas fa-car"></i>
-            <span data-i18n="ship.car">سيارة</span>
-          </div>
-          <div class="shipping-type">
-            <i class="fas fa-truck"></i>
-            <span data-i18n="ship.truck">شاحنة</span>
-          </div>
-          <div class="shipping-type">
-            <i class="fas fa-plane"></i>
-            <span data-i18n="ship.plane">طائرة</span>
-          </div>
-          <div class="shipping-type">
-            <i class="fas fa-ship"></i>
-            <span data-i18n="ship.ship">سفينة</span>
-          </div>
-        </div>
+      <h1 class="hero-title">من حيك إلى العالم</h1>
+      <p class="hero-description">شحن سريع - عمولة طوعية - تقييمات موثوقة</p>
+      <div class="hero-buttons">
+        <button class="btn-primary" onclick="showRegister()"><i class="fas fa-user-plus"></i> ابدأ الآن</button>
       </div>
     </div>
   </section>
-
-  <!-- المميزات -->
-  <section id="features" class="features">
-    <div class="container">
-      <h2 class="section-title" data-i18n="features.title">لماذا تختار الشحنة السريعة؟</h2>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-globe"></i></div>
-          <h3 data-i18n="features.f1">نطاق عالمي</h3>
-          <p data-i18n="features.f1d">من داخل حيك إلى أي دولة في العالم - نفس المنصة، نفس الثقة</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-hand-holding-heart"></i></div>
-          <h3 data-i18n="features.f2">عمولة طوعية</h3>
-          <p data-i18n="features.f2d">1% من المرسل + 2% من الناقل - اختياري تماماً لدعم المنصة</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-star"></i></div>
-          <h3 data-i18n="features.f3">تقييمات متبادلة</h3>
-          <p data-i18n="features.f3d">نظام تقييم شفاف يساعدك في اختيار الأفضل وبناء الثقة</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-robot"></i></div>
-          <h3 data-i18n="features.f4">ذكاء اصطناعي</h3>
-          <p data-i18n="features.f4d">مساعد ذكي يقترح أفضل الناقلين ويقدر التكاليف تلقائياً</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-comments"></i></div>
-          <h3 data-i18n="features.f5">تواصل آمن</h3>
-          <p data-i18n="features.f5d">دردشة داخلية أو واتساب - تحتفظ بالخصوصية والسجلات</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
-          <h3 data-i18n="features.f6">أمان كامل</h3>
-          <p data-i18n="features.f6d">منصة ربط فقط - لا مسؤولية علينا، لكن نقدم أدوات التحقق</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- كيف تعمل -->
-  <section id="how-it-works" class="how-it-works">
-    <div class="container">
-      <h2 class="section-title" data-i18n="how.title">كيف تعمل المنصة؟</h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <h3 data-i18n="how.s1">أنشئ شحنتك</h3>
-            <p data-i18n="how.s1d">حدد نوع الشحنة، الوزن، المسار، والميزانية المتوقعة</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <h3 data-i18n="how.s2">اختر الناقل المناسب</h3>
-            <p data-i18n="how.s2d">تصفح العروض، قارن الأسعار، والتقييمات، واختر الأنسب</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <h3 data-i18n="how.s3">تفاوض على السعر</h3>
-            <p data-i18n="how.s3d">ناقش التفاصيل والسعر - مرونة كاملة بين الطرفين</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">4</div>
-          <div class="step-content">
-            <h3 data-i18n="how.s4">تتبع شحنتك</h3>
-            <p data-i18n="how.s4d">تابع حالة الشحنة لحظة بلحظة حتى التسليم</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- نموذج الشحنة -->
-  <section class="quick-create-shipment" id="quickShipment">
-    <div class="container">
-      <h2 class="section-title" data-i18n="form.title">أرسل شحنتك الآن</h2>
-      <form class="shipment-form" id="shipmentForm">
-        <div class="form-row">
-          <div class="form-group">
-            <label data-i18n="form.from">من (المدينة)</label>
-            <input type="text" id="fromCity" placeholder="مثال: الرياض" required>
-          </div>
-          <div class="form-group">
-            <label data-i18n="form.to">إلى (المدينة)</label>
-            <input type="text" id="toCity" placeholder="مثال: جدة" required>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label data-i18n="form.type">نوع الشحنة</label>
-            <select id="shipmentType" required>
-              <option value="" data-i18n="form.select">اختر النوع</option>
-              <option value="documents" data-i18n="form.docs">مستندات</option>
-              <option value="small_package" data-i18n="form.small">طرد صغير</option>
-              <option value="large_package" data-i18n="form.large">طرد كبير</option>
-              <option value="furniture" data-i18n="form.furniture">أثاث</option>
-              <option value="electronics" data-i18n="form.elec">أجهزة</option>
-              <option value="other" data-i18n="form.other">أخرى</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label data-i18n="form.weight">الوزن التقريبي</label>
-            <input type="text" id="weight" placeholder="مثال: 5 كغ" required>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label data-i18n="form.budget">الميزانية المتوقعة</label>
-            <input type="number" id="budget" placeholder="مثال: 100 ريال" required>
-          </div>
-          <div class="form-group">
-            <label data-i18n="form.urgency">العجلة</label>
-            <select id="urgency" required>
-              <option value="low" data-i18n="form.low">غير مستعجل</option>
-              <option value="medium" data-i18n="form.medium">عادي</option>
-              <option value="high" data-i18n="form.high">مستعجل</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label data-i18n="form.desc">وصف الشحنة</label>
-          <textarea id="description" placeholder="وصف تفصيلي..."></textarea>
-        </div>
-
-        <div class="donation-section">
-          <label class="donation-label">
-            <input type="checkbox" id="voluntaryDonation">
-            <span data-i18n="form.donate">أرغب في المساهمة الطوعية (1%) لدعم المنصة</span>
-          </label>
-          <span class="donation-amount" id="donationAmount">0 ريال</span>
-        </div>
-
-        <button type="submit" class="btn-primary">
-          <i class="fas fa-paper-plane"></i>
-          <span data-i18n="form.submit">أنشر الشحنة</span>
-        </button>
-      </form>
-    </div>
-  </section>
-
-  <!-- فوتر -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3 data-i18n="footer.title">الشحنة السريعة</h3>
-          <p data-i18n="footer.desc">منصة عالمية لربط مرسلي الشحنات بالناقلين بكل أنواعهم</p>
-          <div class="social-links">
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-          </div>
-        </div>
-        <div class="footer-section">
-          <h3 data-i18n="footer.quick">روابط سريعة</h3>
-          <ul>
-            <li><a href="#features" data-i18n="footer.features">المميزات</a></li>
-            <li><a href="#how-it-works" data-i18n="footer.how">كيف تعمل</a></li>
-            <li><a href="disclaimer.html" data-i18n="footer.disclaimer">إخلاء المسؤولية</a></li>
-            <li><a href="terms.html" data-i18n="footer.terms">الشروط والأحكام</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h3 data-i18n="footer.contact">تواصل معنا</h3>
-          <div class="contact-info">
-            <p><i class="fas fa-user"></i> <span data-i18n="footer.name">قايد المصعبي</span></p>
-            <p><i class="fas fa-envelope"></i> gide1979@gmail.com</p>
-            <p><i class="fas fa-phone"></i> +966551519723</p>
-            <p><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer.location">السعودية - جميع المدن</span></p>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2025 <span data-i18n="footer.copy">الشحنة السريعة. جميع الحقوق محفوظة | منصة ربط غير ربحية</span></p>
-      </div>
-    </div>
-  </footer>
 
   <!-- نافذة تسجيل الدخول -->
   <div class="modal" id="loginModal">
     <div class="modal-content">
       <span class="close" onclick="closeModal('loginModal')">&times;</span>
-      <h2 data-i18n="login.title">تسجيل الدخول</h2>
+      <h2><i class="fas fa-user-lock"></i> تسجيل الدخول</h2>
       <form id="loginForm">
-        <div class="form-group">
-          <label data-i18n="login.email">البريد الإلكتروني</label>
-          <input type="email" id="loginEmail" required>
-        </div>
-        <div class="form-group">
-          <label data-i18n="login.pass">كلمة المرور</label>
-          <input type="password" id="loginPassword" required autocomplete="current-password">
-        </div>
-        <button type="submit" class="btn-primary" data-i18n="login.btn">دخول</button>
-        <p class="form-switch">
-          <span data-i18n="login.noacc">ليس لديك حساب؟</span>
-          <a href="#" onclick="switchToRegister()" data-i18n="login.register">سجل الآن</a>
-        </p>
+        <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" required />
+        <input type="password" id="loginPassword" placeholder="كلمة المرور" required />
+        <button type="submit">دخول</button>
       </form>
     </div>
   </div>
@@ -325,88 +135,89 @@
   <div class="modal" id="registerModal">
     <div class="modal-content">
       <span class="close" onclick="closeModal('registerModal')">&times;</span>
-      <h2 data-i18n="reg.title">إنشاء حساب جديد</h2>
+      <h2><i class="fas fa-user-plus"></i> إنشاء حساب جديد</h2>
       <form id="registerForm">
-        <div class="form-group">
-          <label data-i18n="reg.name">الاسم الكامل</label>
-          <input type="text" id="regName" required>
-        </div>
-        <div class="form-group">
-          <label data-i18n="reg.email">البريد الإلكتروني</label>
-          <input type="email" id="regEmail" required>
-        </div>
-        <div class="form-group">
-          <label data-i18n="reg.phone">رقم الجوال</label>
-          <input type="tel" id="regPhone" required>
-        </div>
-        <div class="form-group">
-          <label data-i18n="reg.type">نوع الحساب</label>
-          <select id="regType" required>
-            <option value="" data-i18n="reg.select">اختر النوع</option>
-            <option value="sender" data-i18n="reg.sender">مرسل فقط</option>
-            <option value="carrier" data-i18n="reg.carrier">ناقل فقط</option>
-            <option value="both" data-i18n="reg.both">الاثنين معاً</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label data-i18n="reg.pass">كلمة المرور</label>
-          <input type="password" id="regPassword" required autocomplete="new-password">
-        </div>
-        <button type="submit" class="btn-primary" data-i18n="reg.btn">إنشاء حساب</button>
+        <input type="text" id="regName" placeholder="الاسم الكامل" required />
+        <input type="email" id="regEmail" placeholder="البريد الإلكتروني" required />
+        <input type="tel" id="regPhone" placeholder="رقم الجوال" required />
+        <select id="regType" required>
+          <option value="">نوع الحساب</option>
+          <option value="sender">مرسل</option>
+          <option value="carrier">ناقل</option>
+          <option value="both">كلاهما</option>
+        </select>
+        <input type="password" id="regPassword" placeholder="كلمة المرور" required />
+        <button type="submit">إنشاء حساب</button>
       </form>
     </div>
   </div>
 
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <!-- Firebase CDN -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyCkr2Yy_HP_l1x_Hber8EPxQb9h6oabJyM",
-      authDomain: "fastship-new.firebaseapp.com",
-      projectId: "fastship-new",
-      storageBucket: "fastship-new.firebasestorage.app",
-      messagingSenderId: "977835487089",
-      appId: "1:977835487089:web:b7533c67af3f379df0d0d0",
-      measurementId: "G-79LYR6CWBP"
-    };
-    firebase.initializeApp(firebaseConfig);
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCkr2Yy_HP_l1x_Hber8EPxQb9h6oabJyM",
+  authDomain: "fastship-new.firebaseapp.com",
+  projectId: "fastship-new",
+  storageBucket: "fastship-new.firebasestorage.app",
+  messagingSenderId: "977835487089",
+  appId: "1:977835487089:web:b7533c67af3f379df0d0d0",
+  measurementId: "G-79LYR6CWBP"
+};
+
+    // تهيئة Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
   </script>
 
-  <!-- مكتبة الترجمة -->
-  <script src="i18n.js"></script>
-
-  <!-- سكريبتات الموقع -->
-  <script src="script.js"></script>
-
-  <!-- سكريبت حجب الشحنات -->
   <script>
-    function showCreateShipment() {
-      const user = localStorage.getItem('currentUser');
-      if (!user) {
-        alert('يرجى تسجيل الدخول أولاً');
-        showLogin();
-        return;
+    // وظائف إظهار/إغلاق النوافذ
+    function showLogin() { document.getElementById('loginModal').style.display = 'flex'; }
+    function showRegister() { document.getElementById('registerModal').style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    // إنشاء حساب جديد
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = regName.value;
+      const email = regEmail.value;
+      const phone = regPhone.value;
+      const type = regType.value;
+      const password = regPassword.value;
+
+      try {
+        const userCred = await auth.createUserWithEmailAndPassword(email, password);
+        await db.collection("users").doc(userCred.user.uid).set({
+          name, email, phone, type, createdAt: new Date()
+        });
+        alert("✅ تم إنشاء الحساب بنجاح");
+        closeModal('registerModal');
+      } catch (err) {
+        alert("❌ " + err.message);
       }
-      document.getElementById('quickShipment').scrollIntoView({ behavior: 'smooth' });
-    }
+    });
 
-    function changeLanguage(lang) {
-      localStorage.setItem('lang', lang);
-      location.reload();
-    }
+    // تسجيل الدخول
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = loginEmail.value;
+      const password = loginPassword.value;
+      try {
+        await auth.signInWithEmailAndPassword(email, password);
+        alert("✅ تم تسجيل الدخول بنجاح");
+        closeModal('loginModal');
+      } catch (err) {
+        alert("❌ " + err.message);
+      }
+    });
   </script>
-  <script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyCkr2Yy_HP_l1x_Hber8EPxQb9h6oabJyM",
-    authDomain: "fastship-new.firebaseapp.com",
-    projectId: "fastship-new",
-    storageBucket: "fastship-new.firebasestorage.app",
-    messagingSenderId: "977835487089",
-    appId: "1:977835487089:web:b7533c67af3f379df0d0d0"
-  };
-  firebase.initializeApp(firebaseConfig);
-</script>
-</body>
 
+  <!-- سكربت الموقع -->
+  <script src="script.js"></script>
+</body>
 </html>
