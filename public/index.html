@@ -7,7 +7,7 @@
 
   <!-- الخطوط والأيقونات -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <style>
@@ -107,7 +107,7 @@
     </div>
   </header>
 
-  <!-- قسم رئيسي -->
+  <!-- القسم الرئيسي -->
   <section id="home" class="hero">
     <div class="container">
       <h1 class="hero-title">من حيك إلى العالم</h1>
@@ -152,36 +152,32 @@
     </div>
   </div>
 
-  <!-- Firebase CDN -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
 
   <script>
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCkr2Yy_HP_l1x_Hber8EPxQb9h6oabJyM",
-  authDomain: "fastship-new.firebaseapp.com",
-  projectId: "fastship-new",
-  storageBucket: "fastship-new.firebasestorage.app",
-  messagingSenderId: "977835487089",
-  appId: "1:977835487089:web:b7533c67af3f379df0d0d0",
-  measurementId: "G-79LYR6CWBP"
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyCkr2Yy_HP_l1x_Hber8EPxQb9h6oabJyM",
+      authDomain: "fastship-new.firebaseapp.com",
+      projectId: "fastship-new",
+      storageBucket: "fastship-new.firebasestorage.app",
+      messagingSenderId: "977835487089",
+      appId: "1:977835487089:web:b7533c67af3f379df0d0d0",
+      measurementId: "G-79LYR6CWBP"
+    };
 
-    // تهيئة Firebase
     const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
   </script>
 
   <script>
-    // وظائف إظهار/إغلاق النوافذ
     function showLogin() { document.getElementById('loginModal').style.display = 'flex'; }
     function showRegister() { document.getElementById('registerModal').style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-    // إنشاء حساب جديد
     document.getElementById("registerForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const name = regName.value;
@@ -202,7 +198,6 @@ const firebaseConfig = {
       }
     });
 
-    // تسجيل الدخول
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const email = loginEmail.value;
